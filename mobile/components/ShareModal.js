@@ -1,6 +1,7 @@
 import React from 'react';
-import { Text, View, Modal, TouchableHighlight, Picker, TextInput } from 'react-native';
+import { Text, View, Modal, TouchableHighlight, Picker, TextInput, FlatList } from 'react-native';
 import styles from 'StyleSheet';
+import ListMarker from './ListMarker';
 
 export default class ShareModal extends React.Component {
   render() {
@@ -24,6 +25,35 @@ export default class ShareModal extends React.Component {
     //     onValueChange={(itemValue) => this.props.send(itemValue)}>
     //     {this.props.contacts.map(contact => renderOption(contact))}
     //     </Picker>) : '';
+
+        // const renderOption = (contact) => {
+    //     alert(JSON.stringify(contact));
+    //     let name = contact.name ? contact.name : contact.id;
+    //     // let phone = contact.phoneNumber;
+    //     let id = contact.id;
+    //     return (
+    //     <Picker.Item
+    //     key={id}
+    //     label={name}
+    //     value={contact}
+    //     id={id}
+    //     />);
+    // };
+    const spotDropdown = this.props.markers.length ? (
+        <FlatList
+        style={{ width: '100%', top: 15 }}
+        data={this.props.markers}
+        keyExtractor={item => item.id}
+        renderItem={({ item: item }) => (
+            <ListMarker item={item}/>
+        )}
+        />
+    ) : '';
+        // <Picker
+        // style={{ height: 50, width: 100 }}
+        // onValueChange={(itemValue) => this.props.send(itemValue)}>
+        // {this.props.contacts.map(contact => renderOption(contact))}
+        // </Picker>) : '';
     return (
         <View 
         style={styles.edit}
@@ -37,6 +67,7 @@ export default class ShareModal extends React.Component {
             }}>
                 <View style={{marginTop: 22}}>
                     <Text style={styles.text}>Share Your Spot</Text>
+                    {spotDropdown}
                     <TextInput>Phone Number</TextInput>
                     {/* {dropdown} */}
                     <TouchableHighlight

@@ -24,6 +24,7 @@ export default class App extends React.Component {
     },
     markers: [],
     contacts: [],
+    counter: 1,
     text: null,
     editing: null,
     acceptedTitle: null,
@@ -67,12 +68,13 @@ export default class App extends React.Component {
   }
 
   share = async (contact) => {
-    // let marker = this.state.markers[this.state.editing];
-    // let lat = marker.latlng.latitude;
-    // let lng = marker.latlng.longitude
-    // let location = `http://maps.google.com/?q=${lat},${lng}`;
-    // let { status } = await SMS.sendSMSAsync(contact, location);
+    let marker = this.state.markers[this.state.editing];
+    let lat = marker.latlng.latitude;
+    let lng = marker.latlng.longitude
+    let location = `http://maps.google.com/?q=${lat},${lng}`;
+    let { status } = await SMS.sendSMSAsync(contact, location);
     alert(`Spot sent to ${contact}!`);
+    setShareModalVisible(false) 
   }
 
   componentWillMount() {
@@ -154,6 +156,9 @@ export default class App extends React.Component {
     if (!this.state.editPromptVisible) {
       let marker = {};
       marker.latlng = e.nativeEvent.coordinate;
+      marker.id = this.state.counter;
+      marker.selected = false;
+      this.setState(prevState => { counter: prevState.counter += 1 });
       this.setState({ titlePromptVisible: true });
       if (this.state.text) {
         marker.title = this.state.text;
@@ -262,6 +267,7 @@ export default class App extends React.Component {
             authenticated={this.state.authenticated}
             contacts={this.state.contacts}
             send={this.share.bind(this)}
+            markers={this.state.markers}
           />
         </View>
       </View>

@@ -34,10 +34,10 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     shareFooter: {
-        textAlign: "center",
+        textAlign: "right",
     },
     helpFooter: {
-        textAlign: "center",
+        textAlign: "left",
     },
     share: {
         backgroundColor: '#baffab',
